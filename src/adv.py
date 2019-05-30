@@ -7,26 +7,31 @@ from item import Item
 room = {
     'outside':  Room("Outside Cave Entrance",
                     "North of you, the cave mount beckons"),
-                [Item("torch", "This will help you see in the dark")],
-
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
-                [Item("key", "An old rusty key"), Item("sword", "Old but still sharp")],
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm."""),
-                [Item("coin", "Shiny!")],
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
-                [Item("coin", "Shiny!"), Item("brass key", "A brass key"), Item("dagger", "small and pointy")]
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
-                [Item("empty treasure chest", "Looks like there used to be treasure here")],
+}
+
+item = {
+    "torch" :       Item("torch", "This will help you see in the dark"),
+    "key"   :       Item("key", "An old rusty key"),
+    "sword" :       Item("sword", "Old but still sharp"),
+    "coin"  :       Item("coin", "Shiny!"),
+    "brass key":    Item("brass key", "A brass key"),
+    "dagger":       Item("dagger", "small and pointy"),
+    "empty chest":  Item("empty treasure chest", "Looks like there used to be treasure here"),
+    "map":          Item("map", "A map to the next treasure")
 }
 
 
@@ -41,6 +46,13 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# Put items in rooms
+room['outside'].items = [item["torch"]]
+room['foyer'].items = [item["key"], item["sword"]]
+room['overlook'].items = [item["coin"], item["brass key"]]
+room['narrow'].items = [item["dagger"]]
+room['treasure'].items = [item["coin"], item["coin"], item["map"]]
 #
 # Main
 #
@@ -59,6 +71,8 @@ def loopRoom():
         if player.current_room == room[i].name:
             print(room[i].name)
             print(room[i].description)
+            for x in room[i].items:
+                print(f"\nYou see a {x.name}: {x.description}")
             return room[i]
 
 def loopMove(current_room, move):
@@ -80,6 +94,9 @@ def start():
                 loopMove(start_location, cmd)
             except AttributeError:
                 print("Cannot go that direction")
+        elif cmd == "take":
+            try:
+                for x in ro
         else:
             print("Invalid Command")
 
