@@ -85,7 +85,7 @@ def loopMove(current_room, move):
 def start():
     while True:
         start_location = loopRoom()
-        cmd = input("\n Choose a direction: [n] North [e] East [s] South [w] West, Action: [p] Pickup Item  ").split()
+        cmd = input("\n ====> Choose a direction: [n] North [e] East [s] South [w] West, Actions: [p] Pickup Item [d] Drop Item, Quit: [q] End Game  ").split()
         cmd_one = cmd[0]
         cmd_two = cmd[-1]
 
@@ -113,6 +113,16 @@ def start():
                             break
                         else:
                             print("Cannot find that item in this room")
+
+        elif cmd_one == "d":
+            player_items = player.inventory
+            for z in player_items:
+                if z == cmd_two:
+                    player.inventory.remove(z)
+                    print(f"\n You dropped the {z}")
+                    break
+                else:
+                    print("\n You are not holding that item")
         else:
             print("Invalid Command")
 
