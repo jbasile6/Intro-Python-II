@@ -85,18 +85,34 @@ def loopMove(current_room, move):
 def start():
     while True:
         start_location = loopRoom()
-        cmd = input("\n Choose a direction: [n] North, [e] East, [s] South, [w] West:  ")
-        if cmd == "q":
-            print("Game Over!")
+        cmd = input("\n Choose a direction: [n] North [e] East [s] South [w] West, Action: [p] Pickup Item  ").split()
+        cmd_one = cmd[0]
+        cmd_two = cmd[-1]
+
+
+        if cmd_one == "q":
+            print("You have quit the game!")
             break
-        elif cmd == "n" or cmd == "e" or cmd == "s" or cmd == "w":
+
+
+        elif cmd_one == "n" or cmd_one == "e" or cmd_one == "s" or cmd_one == "w":
             try:
-                loopMove(start_location, cmd)
+                loopMove(start_location, cmd_one)
             except AttributeError:
                 print("Cannot go that direction")
-        elif cmd == "take":
+
+        elif cmd_one == "p":
             try:
-                for x in ro
+                for x in room:
+                    room_items = room[x].items
+                    for y in room_items:
+                        if i.name == cmd_two:
+                            player.inventory.append(i.name)
+                            room_items.remove(i)
+                            print(f"\n You have picked up the {i.name}")
+                            break
+                        else:
+                            print("Cannot find that item in this room")
         else:
             print("Invalid Command")
 
